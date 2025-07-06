@@ -84,9 +84,9 @@ lsp.setup({})
 
 vim.diagnostic.config({
   virtual_text = true,
-  -- float = {
-  --   border = 'rounded',
-  -- },
+  --float = {
+  --  border = 'single',
+  --},
 })
 
 local cmp = require('cmp')
