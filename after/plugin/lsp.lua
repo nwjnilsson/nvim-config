@@ -2,33 +2,13 @@ local lsp = require("lsp-zero")
 
 lsp.preset("recommended")
 
-lsp.ensure_installed({
-  'clangd',
-  'pylsp',
-  'yamlls',
-  'lua_ls',
-  'glsl_analyzer',
-})
-
--- Fix Undefined global 'vim'
-lsp.nvim_workspace()
-
-
-local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  ["<C-Space>"] = cmp.mapping.complete(),
-})
-
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
-
-lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
-})
+-- lsp.ensure_installed({
+--   'clangd',
+--   'pylsp',
+--   'yamlls',
+--   'lua_ls',
+--   'glsl_analyzer',
+-- })
 
 lsp.set_preferences({
   suggest_lsp_servers = false,
@@ -62,7 +42,7 @@ lsp.on_attach(function(client, bufnr)
     vim.lsp.buf.format({
       async = false,
       timeout_ms = 10000,
-      filter = allow_format({ 'clangd', 'yamlls', 'pylsp' })
+      filter = allow_format({ 'clangd', 'yamlls', 'pylsp', 'nil'})
     })
   end, opts)
 end)
@@ -71,6 +51,12 @@ end)
 
 --local util = require 'lspconfig.util'
 local lspconf = require('lspconfig')
+
+lspconf.nil_ls.setup {}
+lspconf.pylsp.setup {}
+lspconf.clangd.setup {}
+
+
 require('mason-lspconfig').setup({
   handlers = {
     -- this first function is the "default handler"
