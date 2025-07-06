@@ -42,7 +42,7 @@ lsp.on_attach(function(client, bufnr)
     vim.lsp.buf.format({
       async = false,
       timeout_ms = 10000,
-      filter = allow_format({ 'clangd', 'yamlls', 'pylsp', 'nil'})
+      filter = allow_format({ 'clangd', 'yamlls', 'pylsp', 'nil', 'lua_ls'})
     })
   end, opts)
 end)
@@ -52,9 +52,12 @@ end)
 --local util = require 'lspconfig.util'
 local lspconf = require('lspconfig')
 
-lspconf.nil_ls.setup {}
-lspconf.pylsp.setup {}
-lspconf.clangd.setup {}
+-- Gotta do this manually when using NixOS
+lspconf.nil_ls.setup({})
+lspconf.yamlls.setup({})
+lspconf.pylsp.setup({})
+lspconf.clangd.setup({})
+lspconf.lua_ls.setup({})
 
 
 require('mason-lspconfig').setup({
@@ -77,8 +80,39 @@ require('mason-lspconfig').setup({
   }
 })
 
-lsp.setup()
+lsp.setup({})
 
 vim.diagnostic.config({
-  virtual_text = true
+  virtual_text = true,
+  float = {
+    border = 'rounded',
+  },
 })
+
+local cmp = require('cmp')
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+local cmp_mappings = lsp.defaults.cmp_mappings({
+  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+  ['<C-y>'] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+  ['<C-Space>'] = cmp.mapping.complete(),
+})
+cmp_mappings['<Tab>'] = nil
+cmp_mappings['<S-Tab>'] = nil
+
+cmp.setup({
+  sources = {
+    {name = 'nvim_lsp'},
+    {name = 'luasnip'},
+  },
+  mapping = cmp_mappings
+})
+
+-- vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+--   vim.lsp.handlers.hover,
+--   {border = 'rounded'}
+-- )
+-- vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+--   vim.lsp.handlers.hover,
+--   {border = 'rounded'}
+-- )
