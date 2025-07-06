@@ -52,7 +52,6 @@ end)
 --local util = require 'lspconfig.util'
 local lspconf = require('lspconfig')
 
--- Gotta do this manually when using NixOS
 lspconf.nil_ls.setup({})
 lspconf.yamlls.setup({})
 lspconf.pylsp.setup({})
@@ -69,12 +68,6 @@ lspconf.lua_ls.setup({
 
 require('mason-lspconfig').setup({
   handlers = {
-    -- this first function is the "default handler"
-    -- it applies to every language server without a "custom handler"
-    function(server_name)
-      lspconf[server_name].setup({})
-    end,
-
     clangd = function()
       vim.cmd [[ autocmd BufRead,BufNewFile *.mpp set filetype=mpp ]]
       vim.cmd [[ autocmd BufRead,BufNewFile *.ixx set filetype=ixx ]]
@@ -91,9 +84,9 @@ lsp.setup({})
 
 vim.diagnostic.config({
   virtual_text = true,
-  float = {
-    border = 'rounded',
-  },
+  -- float = {
+  --   border = 'rounded',
+  -- },
 })
 
 local cmp = require('cmp')
@@ -113,8 +106,4 @@ cmp.setup({
     { name = 'luasnip' },
   },
   mapping = cmp_mappings,
-  window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  }
 })
