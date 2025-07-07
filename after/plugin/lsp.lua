@@ -20,10 +20,6 @@ lsp.set_preferences({
   }
 })
 
-local function allow_format(servers)
-  return function(client) return vim.tbl_contains(servers, client.name) end
-end
-
 lsp.on_attach(function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
   local format = function()
@@ -31,11 +27,7 @@ lsp.on_attach(function(client, bufnr)
     if client.name == 'nil_ls' then
       vim.cmd '%!alejandra -qq'
     else
-      vim.lsp.buf.format({
-        async = false,
-        timeout_ms = 10000,
-        filter = allow_format({ 'clangd', 'yamlls', 'pylsp', 'lua_ls' })
-      })
+      vim.lsp.buf.format({})
     end
   end
 
