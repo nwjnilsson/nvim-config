@@ -51,8 +51,8 @@ end)
 
 --local util = require 'lspconfig.util'
 local lspconf = require('lspconfig')
-
 lspconf.nil_ls.setup({})
+lspconf.bashls.setup({})
 lspconf.yamlls.setup({})
 lspconf.pylsp.setup({})
 lspconf.clangd.setup({})

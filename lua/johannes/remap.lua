@@ -19,10 +19,10 @@ vim.keymap.set({ "n", "v" }, "H", "_")
 vim.keymap.set({ "n", "v" }, "L", "$")
 
 -- Switch window
-vim.keymap.set("n", "<A-L>", "<C-w>l")
-vim.keymap.set("n", "<A-K>", "<C-w>k")
-vim.keymap.set("n", "<A-J>", "<C-w>j")
-vim.keymap.set("n", "<A-H>", "<C-w>h")
+vim.keymap.set("n", "<Left>", "<C-w>h")
+vim.keymap.set("n", "<Down>", "<C-w>j")
+vim.keymap.set("n", "<Up>", "<C-w>k")
+vim.keymap.set("n", "<Right>", "<C-w>l")
 
 -- Open terminal
 vim.keymap.set("n", "<A-t>", "<cmd>terminal<CR>i")
